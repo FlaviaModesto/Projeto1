@@ -1,0 +1,780 @@
+/* ============================================================
+   SOLO LEVELING THEME — Sistema de Gestão
+   Classes compatíveis com: home.php, cadastrar_produto.php,
+   pesquisar_produto.php, login.php, cadastro.php, esqueci.php
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+/* ── Variáveis ────────────────────────────────────────────── */
+:root {
+    --bg-void:        #050508;
+    --bg-dungeon:     #0a0a12;
+    --bg-surface:     #0f0f1a;
+    --bg-card:        #13131f;
+    --bg-card-hover:  #18182a;
+    --bg-input:       #0c0c18;
+
+    --violet-deep:    #1a0a2e;
+    --violet-core:    #4a1fa8;
+    --violet-bright:  #7c3aed;
+    --violet-glow:    #9d5af5;
+    --violet-light:   #c4b5fd;
+
+    --blue-core:      #1e3a8a;
+    --blue-bright:    #3b82f6;
+    --blue-light:     #93c5fd;
+
+    --gold-core:      #b8860b;
+    --gold-bright:    #d4a017;
+    --gold-light:     #ffd700;
+    --gold-shimmer:   #ffe566;
+
+    --text-primary:   #e8e0ff;
+    --text-secondary: #a89bc0;
+    --text-muted:     #5a5070;
+    --text-white:     #ffffff;
+
+    --border-violet:  rgba(124, 58, 237, 0.4);
+    --border-subtle:  rgba(255, 255, 255, 0.06);
+
+    --shadow-violet:  0 0 30px rgba(124, 58, 237, 0.25);
+    --shadow-deep:    0 8px 32px rgba(0, 0, 0, 0.6);
+
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  16px;
+
+    --font-display: 'Cinzel', serif;
+    --font-body:    'Rajdhani', sans-serif;
+
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-void);
+    color: var(--text-primary);
+    min-height: 100vh;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(74,31,168,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 90%, rgba(30,58,138,0.1) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+}
+body > * { position: relative; z-index: 1; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dungeon); }
+::-webkit-scrollbar-thumb { background: var(--violet-core); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--violet-bright); }
+
+/* ============================================================
+   LOGIN / CADASTRO / ESQUECI — .container > .card
+   ============================================================ */
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-violet);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-violet), var(--shadow-deep);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--violet-bright), var(--gold-bright), var(--violet-bright), transparent);
+}
+
+.card h2 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.06em;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.card .subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 1.25rem;
+    margin-top: -1rem;
+}
+
+/* Campos dentro do .card (login/cadastro) */
+.card form > div,
+.card > form > div {
+    margin-bottom: 1.1rem;
+}
+
+.card label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.45rem;
+}
+
+.card input[type="text"],
+.card input[type="email"],
+.card input[type="password"] {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.card input:focus {
+    border-color: var(--violet-bright);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+}
+
+.card input::placeholder { color: var(--text-muted); }
+
+/* Link abaixo do formulário */
+.card .link,
+.link {
+    display: block;
+    text-align: center;
+    margin-top: 0.85rem;
+    font-size: 0.88rem;
+    color: var(--violet-glow);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+.card .link:hover, .link:hover { color: var(--gold-light); }
+
+/* ── Badge (✦ Acesse sua conta) ──────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(124,58,237,0.15);
+    color: var(--violet-light);
+    border: 1px solid rgba(124,58,237,0.3);
+    margin-bottom: 1rem;
+    align-self: center;
+}
+
+/* ── Mensagens ────────────────────────────────────────────── */
+.msg {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+    border-left: 3px solid;
+}
+.msg-sucesso { background: rgba(21,128,61,0.15); border-color: #22c55e; color: #86efac; }
+.msg-erro    { background: rgba(185,28,28,0.15);  border-color: #ef4444; color: #fca5a5; }
+
+/* ── Botão global ─────────────────────────────────────────── */
+.btn,
+button[type="submit"],
+input[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--violet-core) 0%, var(--violet-bright) 100%);
+    color: var(--text-white);
+    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+    transition: all var(--transition);
+    margin-top: 0.5rem;
+}
+.btn:hover, button[type="submit"]:hover, input[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--violet-bright) 0%, var(--violet-glow) 100%);
+    box-shadow: 0 4px 28px rgba(124,58,237,0.6);
+    transform: translateY(-1px);
+    color: #fff;
+}
+
+/* ============================================================
+   DASHBOARD — .dashboard-body / .dashboard-layout
+   ============================================================ */
+
+body.dashboard-body {
+    background-color: var(--bg-void);
+    overflow: hidden;
+}
+
+/* Layout flex: sidebar fixa + main scrollável */
+.dashboard-layout {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ── SIDEBAR ──────────────────────────────────────────────── */
+.sidebar {
+    width: 250px;
+    min-width: 250px;
+    height: 100vh;
+    background: var(--bg-dungeon);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* Linha brilhante no topo da sidebar */
+.sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violet-bright), var(--gold-bright), var(--violet-bright));
+}
+
+/* Logo / marca */
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 14px rgba(255,215,0,0.3);
+}
+
+.sidebar-logo {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--violet-core), var(--violet-bright));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    border: 1px solid var(--border-violet);
+}
+
+/* Info do usuário */
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(124,58,237,0.05);
+}
+
+.sidebar-avatar {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--violet-core), var(--violet-bright));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+    border: 2px solid var(--border-violet);
+    flex-shrink: 0;
+}
+
+.sidebar-user-info { display: flex; flex-direction: column; min-width: 0; }
+
+.sidebar-user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-user-role {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* Navegação */
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    overflow-y: auto;
+}
+
+.nav-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.6rem 0.5rem 0.3rem;
+}
+
+/* Item de nav — usado dentro e fora do sidebar-nav */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.85rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: all var(--transition);
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background: rgba(124,58,237,0.12);
+    color: var(--text-primary);
+    border-color: var(--border-violet);
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, rgba(74,31,168,0.4), rgba(124,58,237,0.2));
+    color: var(--violet-light);
+    border-color: rgba(124,58,237,0.5);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 20%; bottom: 20%;
+    width: 3px;
+    background: var(--violet-bright);
+    border-radius: 0 3px 3px 0;
+}
+
+.nav-icon {
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* Logout — no final da sidebar, fora do nav */
+.nav-logout {
+    margin: 0.75rem;
+    color: #f87171;
+}
+.nav-logout:hover {
+    background: rgba(239,68,68,0.12);
+    border-color: rgba(239,68,68,0.3);
+    color: #fca5a5;
+}
+
+/* ── CONTEÚDO PRINCIPAL ───────────────────────────────────── */
+.dashboard-main {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--bg-void);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cabeçalho de página dentro do main */
+.dash-header {
+    padding: 2rem 2rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.dash-header h1 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    margin: 0.4rem 0 0.2rem;
+    line-height: 1.2;
+}
+
+.dash-header h1 span { color: var(--violet-light); }
+
+.dash-header .subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* Área de conteúdo com padding */
+.dashboard-main > *:not(.dash-header) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+/* ── Cards do home (dash-cards) ───────────────────────────── */
+.dash-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0;
+}
+
+.dash-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violet-core), var(--violet-bright));
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.dash-card:hover {
+    border-color: var(--border-violet);
+    box-shadow: var(--shadow-violet);
+    transform: translateY(-2px);
+    background: var(--bg-card-hover);
+}
+
+.dash-card:hover::before { opacity: 1; }
+
+.dash-card-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, rgba(74,31,168,0.4), rgba(124,58,237,0.25));
+    border: 1px solid var(--border-violet);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.dash-card-content { flex: 1; min-width: 0; }
+
+.dash-card-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem;
+}
+
+.dash-card-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.dash-card-arrow {
+    font-size: 1.1rem;
+    color: var(--violet-glow);
+    flex-shrink: 0;
+    transition: transform var(--transition);
+}
+.dash-card:hover .dash-card-arrow { transform: translateX(4px); }
+
+/* ── Stats (home) ─────────────────────────────────────────── */
+.stats, .dash-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.stat-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    text-align: center;
+    transition: all var(--transition);
+}
+.stat-box:hover {
+    border-color: var(--border-violet);
+    background: var(--bg-card-hover);
+}
+
+.stat-num {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.35rem;
+    text-shadow: 0 0 12px rgba(255,215,0,0.25);
+}
+
+.stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+/* ── Formulário de produto (form-card) ────────────────────── */
+.form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-top: 1.75rem;
+    max-width: 700px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--violet-bright), var(--gold-bright), var(--violet-bright));
+}
+
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.form-card label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 0.45rem;
+}
+
+.form-card input[type="text"],
+.form-card input[type="number"],
+.form-card textarea {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text-primary);
+    outline: none;
+    margin-bottom: 1.1rem;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.form-card input:focus,
+.form-card textarea:focus {
+    border-color: var(--violet-bright);
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.2);
+}
+
+.form-card input::placeholder,
+.form-card textarea::placeholder { color: var(--text-muted); }
+
+.form-card textarea { resize: vertical; min-height: 80px; }
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* Botão dentro do form-card sem margin-top estranha */
+.form-card .btn { margin-top: 0.25rem; }
+
+/* ── Barra de busca (pesquisar) ───────────────────────────── */
+.form-card form[style*="flex-direction:row"],
+.form-card form[style*="row"] {
+    flex-direction: row !important;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.form-card form[style*="flex-direction:row"] input,
+.form-card form[style*="row"] input {
+    margin-bottom: 0;
+}
+
+.form-card form[style*="flex-direction:row"] .btn,
+.form-card form[style*="row"] .btn,
+.form-card .btn[style*="width:auto"] {
+    width: auto !important;
+    white-space: nowrap;
+    margin-top: 0;
+    flex-shrink: 0;
+}
+
+/* ── Tabela de produtos ───────────────────────────────────── */
+.table-wrap {
+    margin-top: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.produto-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.produto-table thead th {
+    background: var(--bg-surface);
+    padding: 0.85rem 1.25rem;
+    text-align: left;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.produto-table tbody td {
+    padding: 0.9rem 1.25rem;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+}
+
+.produto-table tbody tr:last-child td { border-bottom: none; }
+.produto-table tbody tr { transition: background var(--transition); }
+.produto-table tbody tr:hover { background: var(--bg-card-hover); }
+
+/* Empty state */
+.empty-state {
+    padding: 3rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* Botão de deletar na tabela */
+.btn-table {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all var(--transition);
+    font-weight: 700;
+}
+
+.btn-del {
+    background: rgba(185,28,28,0.2);
+    color: #fca5a5;
+    border: 1px solid rgba(239,68,68,0.3);
+}
+
+.btn-del:hover {
+    background: rgba(239,68,68,0.3);
+    color: #fff;
+    border-color: #ef4444;
+}
+
+/* ── Responsivo ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .sidebar { width: 60px; min-width: 60px; }
+    .sidebar-brand span,
+    .sidebar-user-info,
+    .nav-label,
+    .nav-item > *:not(.nav-icon) { display: none; }
+    .nav-item { justify-content: center; padding: 0.85rem; }
+    .sidebar-brand { justify-content: center; padding: 1rem; }
+    .sidebar-user { justify-content: center; }
+    .dash-cards { grid-template-columns: 1fr; }
+    .stats, .dash-stats { grid-template-columns: 1fr 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .dash-header, .dashboard-main > *:not(.dash-header) { padding-left: 1rem; padding-right: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .stats, .dash-stats { grid-template-columns: 1fr; }
+}
